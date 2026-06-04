@@ -580,3 +580,8 @@ BTL_03/
 │   └── wallet.js
 └── templates/
     └── index.html
+## Poster Đề Tài
+
+## 📌 Poster Đề Tài
+
+![Poster](Nguyen_Trung_Kien_Poster-1.png)
