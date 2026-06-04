@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.env
+
+# Flask / runtime files
+alerts/
+*.log
+
+# Camera / model files nếu quá nặng
+*.mp4
+*.avi
+*.mov
+
+# Local blockchain runtime data
+# Nếu muốn đẩy log mẫu thì bỏ 2 dòng này
+blockchain_log.json
+fire_alert_history.txt
+
+# Secret/config
+config.json
+secrets.json
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

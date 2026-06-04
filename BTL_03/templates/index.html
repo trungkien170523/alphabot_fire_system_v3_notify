@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Alphabot Firefighting Command Center</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<body>
+  <div class="background-glow"></div>
+
+  <main class="dashboard">
+    <aside class="sidebar">
+      <div class="logo-box">
+        <div class="logo-icon">🔥</div>
+        <div>
+          <h2>Alphabot</h2>
+          <p>Fire Command</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a class="menu-item active" href="#overview">Dashboard</a>
+        <a class="menu-item" href="#camera">Live Camera</a>
+        <a class="menu-item" href="#control">Robot Control</a>
+        <a class="menu-item" href="#alerts">Alerts</a>
+        <a class="menu-item" href="#blockchain">Blockchain</a>
+      </nav>
+
+      <div class="side-card">
+        <span class="side-label">System Mode</span>
+        <strong id="modeText">--</strong>
+        <div class="mode-buttons">
+          <button onclick="setMode('agriculture')">Agriculture</button>
+          <button onclick="setMode('smart_city')">Smart City</button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">AI Firefighting Robot System</p>
+          <h1>Alphabot Firefighting Command Center</h1>
+        </div>
+
+        <div class="top-actions">
+          <div class="clock-card">
+            <span>Current Time</span>
+            <strong id="clock">--</strong>
+          </div>
+
+          <button class="danger-btn" onclick="simulateAlert()">Test Alert</button>
+        </div>
+      </header>
+
+      <section id="overview" class="stats-grid">
+        <div class="stat-card danger-border">
+          <div class="stat-icon">⚠️</div>
+          <div>
+            <span>Danger Level</span>
+            <strong id="dangerLevel">NORMAL</strong>
+          </div>
+        </div>
+
+        <div class="stat-card cyan-border">
+          <div class="stat-icon">🤖</div>
+          <div>
+            <span>Robot Command</span>
+            <strong id="currentCommand">STOP</strong>
+          </div>
+        </div>
+
+        <div class="stat-card green-border">
+          <div class="stat-icon">⛓️</div>
+          <div>
+            <span>Blockchain Blocks</span>
+            <strong id="chainLength">1</strong>
+          </div>
+        </div>
+
+        <div class="stat-card purple-border">
+          <div class="stat-icon">🎮</div>
+          <div>
+            <span>Control Mode</span>
+            <strong id="controlMode">AUTO</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <div id="camera" class="panel camera-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Live AI Vision</p>
+              <h2>Camera Detection Stream</h2>
+            </div>
+
+            <span class="danger-pill" id="dangerTag">NORMAL</span>
+          </div>
+
+          <div class="video-frame">
+            <img id="videoFeed" src="/video_feed" alt="Live camera stream" />
+            <div class="video-overlay">
+              <span class="live-dot"></span>
+              LIVE CAMERA
+            </div>
+          </div>
+        </div>
+
+        <div class="right-column">
+            <div class="panel wallet-panel">
+  <div class="panel-header">
+    <div>
+      <p class="eyebrow">Web3 Wallet</p>
+      <h2>MetaMask & Smart Contract</h2>
+    </div>
+  </div>
+
+  <div class="wallet-status-grid">
+    <div>
+      <span>Wallet</span>
+      <strong id="walletAddressText">--</strong>
+    </div>
+
+    <div>
+      <span>Network</span>
+      <strong id="walletStatusText">Not connected</strong>
+    </div>
+
+    <div>
+      <span>Contract</span>
+      <strong id="contractStatusText">Not ready</strong>
+    </div>
+
+    <div>
+      <span>On-chain Alerts</span>
+      <strong id="onchainAlertCount">0</strong>
+    </div>
+  </div>
+
+  <div class="wallet-actions">
+    <button onclick="connectWallet()">Connect MetaMask</button>
+    <button onclick="syncLatestLocalBlockToContract()">Sync Latest Alert</button>
+    <button onclick="syncAllLocalAlertsToContract()">Sync All Alerts</button>
+  </div>
+
+  <div id="latestOnchainAlert" class="latest-onchain-alert">
+    <p class="empty-text">Chưa có alert on-chain.</p>
+  </div>
+</div>
+          <div class="panel status-panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">System Health</p>
+                <h2>Runtime Status</h2>
+              </div>
+            </div>
+
+            <div class="status-list">
+              <div class="status-row">
+                <span>Camera</span>
+                <strong id="cameraStatus">--</strong>
+              </div>
+
+              <div class="status-row">
+                <span>Arduino</span>
+                <strong id="arduinoStatus">--</strong>
+              </div>
+
+              <div class="status-row">
+                <span>Model</span>
+                <strong id="modelText">--</strong>
+              </div>
+
+              <div class="status-row">
+                <span>Blockchain</span>
+                <strong id="blockchainStatus">--</strong>
+              </div>
+
+              <div class="status-row">
+                <span>Alert Count</span>
+                <strong id="alertCount">0</strong>
+              </div>
+            </div>
+
+            <div class="message-box">
+              <span>System Message</span>
+              <p id="messageText">System starting...</p>
+            </div>
+
+            <p class="update-text" id="lastUpdate">Đang chờ dữ liệu...</p>
+          </div>
+          <div class="panel mini-blockchain-panel">
+  <div class="panel-header">
+    <div>
+      <p class="eyebrow">Blockchain Monitor</p>
+      <h2>Latest Blocks</h2>
+    </div>
+  </div>
+
+  <div class="mini-chain-stats">
+    <div>
+      <span>Total Blocks</span>
+      <strong id="miniChainLength">1</strong>
+    </div>
+
+    <div>
+      <span>Chain Status</span>
+      <strong id="miniChainStatus">--</strong>
+    </div>
+  </div>
+
+  <div id="miniBlockchainBox" class="mini-blockchain-list">
+    <p class="empty-text">Đang chờ blockchain data...</p>
+  </div>
+
+  <a class="view-full-chain" href="#blockchain">
+    Xem bảng blockchain đầy đủ ↓
+  </a>
+</div>
+
+          <div id="control" class="panel control-panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Manual Control</p>
+                <h2>Robot Direction</h2>
+              </div>
+            </div>
+
+            <div class="control-grid">
+              <button onclick="sendCommand('LEFT')">← LEFT</button>
+              <button onclick="sendCommand('FORWARD')">↑ FORWARD</button>
+              <button onclick="sendCommand('RIGHT')">RIGHT →</button>
+              <button onclick="sendCommand('BACKWARD')">↓ BACK</button>
+              <button class="pump" onclick="sendCommand('PUMP')">PUMP</button>
+              <button onclick="sendCommand('SEARCH')">SEARCH</button>
+              <button class="wide stop" onclick="sendCommand('STOP')">STOP</button>
+              <button class="wide auto" onclick="setAuto()">AUTO MODE</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bottom-grid">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Detection Results</p>
+              <h2>Detected Fire / Smoke Objects</h2>
+            </div>
+          </div>
+
+          <div id="detectionsBox" class="cards-list">
+            <p class="empty-text">Chưa có detection.</p>
+          </div>
+        </div>
+
+        <div id="alerts" class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Alert History</p>
+              <h2>Recent Fire Alerts</h2>
+            </div>
+          </div>
+
+          <div id="alertsBox" class="cards-list"></div>
+        </div>
+      </section>
+
+      <section id="blockchain" class="panel blockchain-panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Immutable Alert Log</p>
+            <h2>Blockchain Log</h2>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Index</th>
+                <th>Timestamp</th>
+                <th>Danger</th>
+                <th>Command</th>
+                <th>Message</th>
+                <th>Hash</th>
+              </tr>
+            </thead>
+
+            <tbody id="blockchainTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+  <script src="{{ url_for('static', filename='wallet.js') }}"></script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
